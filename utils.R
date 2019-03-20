@@ -67,7 +67,7 @@ write.html.mod <- function (x, links, tiny.pic, tiny.pic.size = 100, title = "",
     cat("</TABLE>\n", file = file, append = T)
     cat("</body>\n", file = file, append = T)
     cat("</html>\n", file = file, append = T)
-    sortDragHtmlTable(filename = file)
+    sortDragHtmlTable.int(filename = file)
 }
 
 sortDragHtmlTable.int <- function (filename)
