@@ -70,11 +70,11 @@ htmlagsea <- function(obj, htmlpath = "", htmlname = "file.html", plotpath ="",
                 paste0(plotpath, gsub("[[:punct:]]"," ",rownames(x)),"_effsize.png")
 
         if(!is.null(geneDEhtmlfiles))
-            links$geneDEinfo <- geneDEhtmlfiles
-        if(dim(x)[1]>200) links$geneDEinfo[201:dim(x)[1]] <- NA
+        {
+                links$geneDEinfo <- geneDEhtmlfiles
+                if(dim(x)[1]>200) links$geneDEinfo[201:dim(x)[1]] <- NA
+        }
 
         write.html.mod(x, file=paste0(htmlpath, htmlname), links=links, tiny.pic=plots,  title=tit)
-
-
 }
 
