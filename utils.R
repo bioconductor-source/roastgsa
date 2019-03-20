@@ -1,7 +1,7 @@
 require(limma)
 require(parallel)
-library(gplots)
-
+require(gplots)
+require(MDA)
 
 write.html.mod <- function (x, links, tiny.pic, tiny.pic.size = 100, title = "",
     file, digits = 3, col.align='center', cellpadding=10)
