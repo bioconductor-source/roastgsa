@@ -64,7 +64,8 @@ weightgeneset2 <- function(ysel, index, method = c("corthr","downExc","pcaCont")
   return(Weight.list)
 }
 
-weightgeneset3 <- function(ysel, index, method = c("corthr","downExc","pcaCont"), nite = 1000, thr = 0.4, Nsel = 20, mc.cores = 2){
+dweightgeneset <- function(ysel,  method = c("clust","corthr","downExc","pcaCont"),
+                           nite = 1000, thr = 0.4, Nsel = 20, mc.cores = 2, ncomp = 5){
       if(method[1] == "corthr")
      {
          cor1 <- cor(t(ysel))
@@ -88,6 +89,23 @@ weightgeneset3 <- function(ysel, index, method = c("corthr","downExc","pcaCont")
          pca1 <- prcomp(t(ysel))
          pcvar <-as.numeric( 1 /( t(abs(cor(pca1$x,t(ysel)))) %*% t(t(pca1$sdev))^2))
      }
+     if(method[1] == "clust"){
+
+       if(nrow(ysel) < 20)  pcvar <- rep(1,nrow(ysel))
+       else{
+         al <- sapply(5:round(nrow(ysel)/3), function(s){
+            kms <- kmeans(ysel,s)$clust
+            sapply(1:length(kms), function(k) sum(kms==kms[k]))
+         })
+         pcvar <- (1/apply(al,1,mean))
+     }
+   }
+
+   if(method[1] == "lm"){
+         ncomp <- min(c(ncomp, ncol(ysel)-2, nrow(ysel)-2))
+         al  <- sapply(1:dim(ysel)[2], function(k) (summary(lm(ysel[,k] ~ -1 + prcomp(ysel[,-k])$x[,1:ncomp])))$r.squared)
+         pcvar <- (1-al)
+   }
 
     Weight.list <- as.matrix(pcvar/sum(pcvar))
     return(Weight.list)

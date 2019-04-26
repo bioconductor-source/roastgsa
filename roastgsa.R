@@ -55,7 +55,7 @@ roastgsa <- function(y, covar, form, contrast = NA, design = NULL,
     res$covar <- covar
     res$statistic <- set.statistic
     res$design <- design
-    res$contrast <- contrast
+    res$contrast <- res$contrast
     res$self.contained <- self.contained
     res$form <- form
     res$fcall <- fcall

@@ -76,6 +76,9 @@ froastgsa <- function (y, index, design = NULL, contrast = ncol(design), set.sta
                              first = FALSE)$design
    }
 
+   if (length(contrast) == 1L)
+     contrast <- ifelse((1:p) == contrast, 1, 0)
+
    # moderated t
    qr <- qr(design)
    signc <- sign(qr$qr[p, p])
@@ -136,8 +139,17 @@ froastgsa <- function (y, index, design = NULL, contrast = ncol(design), set.sta
 
   if (set.statistic == "maxmean")
   {
-    estpos <- sapply(index, function(o, modt) sum((modt[o] + abs(modt[o]))/2)/length(o), modt)
-    estneg <- sapply(index, function(o, modt) sum((abs(modt[o]) - modt[o])/2)/length(o), modt)
+    if(is.null(weights)){
+        estpos <- sapply(index, function(o, modt) sum((modt[o] + abs(modt[o]))/2)/length(o), modt)
+        estneg <- sapply(index, function(o, modt) sum((abs(modt[o]) - modt[o])/2)/length(o), modt)
+    }
+    else{
+        estpos <- sapply(1:length(index),
+                         function(o, modt) sum(weights[[o]]*(modt[index[[o]]] + abs(modt[index[[o]]]))/2), modt)
+        estneg <- sapply(1:length(index),
+                         function(o, modt) sum( weights[[o]]*(abs(modt[index[[o]]]) - modt[index[[o]]])/2), modt)
+    }
+
     nuapos <- mean(modt*(modt > 0))
     nuaneg <- mean(-modt*(modt < 0))
     sdapos <- sd(modt*(modt > 0))
@@ -165,8 +177,18 @@ froastgsa <- function (y, index, design = NULL, contrast = ncol(design), set.sta
         sdr.post <- sqrt(s02)
       }
       modtr <- (signc * Br/sdr.post)
-      estpos0 <- sapply(index, function(o, modtr) sum((modtr[o] + abs(modtr[o]))/2)/length(o), modtr)
-      estneg0 <- sapply(index, function(o, modtr) sum((abs(modtr[o]) - modtr[o])/2)/length(o), modtr)
+
+      if(is.null(weights)){
+        estpos0 <- sapply(index, function(o, modtr) sum((modtr[o] + abs(modtr[o]))/2)/length(o), modtr)
+        estneg0 <- sapply(index, function(o, modtr) sum((abs(modtr[o]) - modtr[o])/2)/length(o), modtr)
+      }
+      else{
+        estpos0 <- sapply(1:length(index),
+                         function(o, modtr) sum(weights[[o]]*(modtr[index[[o]]] + abs(modtr[index[[o]]]))/2), modtr)
+        estneg0 <- sapply(1:length(index),
+                         function(o, modtr) sum( weights[[o]]*(abs(modtr[index[[o]]]) - modtr[index[[o]]])/2), modtr)
+      }
+
       nuapos0 <- mean(modtr*(modtr > 0))
       nuaneg0 <- mean(-modtr*(modtr < 0))
       sdapos0 <- sd(modtr*(modtr > 0))
@@ -253,6 +275,7 @@ froastgsa <- function (y, index, design = NULL, contrast = ncol(design), set.sta
                             reorder = FALSE)
     obs.set.ranks <- obs.set.ranks/SetSizes
     rot.ranks <- obs.ranks
+    est <- obs.set.ranks[,2]
     p.value <- matrix(0, nrow = nsets, ncol = 3)
     p.value <- mclapply(seq_len(nrot),function(i)
     {
@@ -357,7 +380,14 @@ froastgsa <- function (y, index, design = NULL, contrast = ncol(design), set.sta
   }
 
   if (set.statistic == "GSEA")
-  {
+      {
+      if (restand)
+      {
+       nua <- mean(modt)
+       sda <- sd(modt)
+       modt <- (modt - nua)/sda
+      }
+
       ord <- order(-modt)
       modt2 <- modt[ord]
 #      index2 <- lapply(index, function(o) which(ord%in%o))
@@ -387,6 +417,12 @@ froastgsa <- function (y, index, design = NULL, contrast = ncol(design), set.sta
         sdr.post <- sqrt(s02)
       }
       modtr <- signc * Br/sdr.post
+      if (restand)
+      {
+       nua <- mean(modt)
+       sda <- sd(modt)
+       modt <- (modt - nua)/sda
+      }
       ordr <- order(-modtr)
       modtr2 <- modtr[ordr]
       rankmod = rank(-modtr, ties.method = "first")
@@ -409,17 +445,21 @@ froastgsa <- function (y, index, design = NULL, contrast = ncol(design), set.sta
   }
   if (set.statistic == "GSVA")
   {
+ #   a2 <- rnorm(1000,0.2,0.1)
+ #   a1 <- rnorm(1000,0.4,0.3)
+ #   modt = c(a1,a2)
+
     ord <- order(-modt)
     modt2 <- modt[ord]
 #    index2 <- lapply(index, function(o) which(ord%in%o))
     rankmod = rank(-modt, ties.method = "first")
     index2 <- lapply(index, function(o) rankmod[o])
-    es <- sapply(index2, function(o, modt2) enrichmentScore(modt2, o), modt2)
-    estpos <- apply(es, 2, function(o) if (any(o > 0)) o[o==max(o)] else 0)
-    estneg <- apply(es, 2, function(o) if (any(o < 0)) o[o==min(o)] else 0)
+    es <- sapply(index2, function(o) enrichmentScore(1:length(modt2) - length(modt2)/2, o))
+    estpos <- apply(es, 2, function(o) if (any(o > 0)) o[o==max(o)][1] else 0)
+    estneg <- apply(es, 2, function(o) if (any(o < 0)) o[o==min(o)][1] else 0)
     est <- abs(estpos) - abs(estneg)
-    p.value <- matrix(0, nrow = nsets, ncol = 2)
-    p.value <- apply(do.call(cbind,mclapply(seq_len(nrot),function(i)
+    est
+    est0.all <- do.call(cbind,mclapply(seq_len(nrot),function(i)
     {
       if(executation.info ) setTxtProgressBar(pb, i)
       R <- matrix(rnorm((d + 1)), 1, d + 1)
@@ -437,15 +477,16 @@ froastgsa <- function (y, index, design = NULL, contrast = ncol(design), set.sta
       ordr <- order(-modtr)
       modtr2 <- modtr[ordr]
 #      index2 <- lapply(index, function(o) which(ordr %in% o))
-      rankmod = rank(-modt, ties.method = "first")
+      rankmod = rank(-modtr, ties.method = "first")
       index2 <- lapply(index, function(o) rankmod[o])
-      es0 <- sapply(index2, function(o, modtr2) enrichmentScore(modtr2, o), modtr2)
-      estpos0 <- apply(es0, 2, function(o) if (any(o > 0)) o[o==max(o)] else 0)
-      estneg0 <- apply(es0, 2, function(o) if (any(o < 0)) o[o==min(o)] else 0)
+      es0 <- sapply(index2, function(o) enrichmentScore(1:length(modtr2) - length(modtr2)/2, o))
+      estpos0 <- apply(es0, 2, function(o) if (any(o > 0)) o[o==max(o)][1] else 0)
+      estneg0 <- apply(es0, 2, function(o) if (any(o < 0)) o[o==min(o)][1] else 0)
       est0 <- abs(estpos0) - abs(estneg0)
-         p.value <- est0 >= est
-    }, mc.cores = mccores)),1,sum)
-    pval <- as.matrix(2 * c(pmin(p.value, nrot-p.value)))
+      est0
+    }, mc.cores = mccores))
+       p.value <- sapply(seq_len(dim(est0.all)[1]), function(o) sum(est[o] >= as.numeric(est0.all[o,])))
+       (pval <- as.matrix(2 * c(pmin(p.value, nrot-p.value))))
   }
 
   r <- (pval + 1)/(nrot + 1)
@@ -482,7 +523,7 @@ froastgsa <- function (y, index, design = NULL, contrast = ncol(design), set.sta
                    "adj.pval.mixed")]
       }
   }
-  return(list(res = r, stats = modt))
+  return(list(res = r, stats = modt, contrast = contrast))
 }
 
 

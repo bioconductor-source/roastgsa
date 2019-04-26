@@ -4,7 +4,7 @@
 htmlagsea <- function(obj, htmlpath = "", htmlname = "file.html", plotpath ="",
                       plotmean = TRUE, plotgsea = TRUE, indheatmap = TRUE, ploteffsize = TRUE,
                       y, whplots = NULL, tit = "", margins = c(5,16), geneDEhtmlfiles  = NULL,
-                      sizesHeatmap = c(1200, 800), varrot, ... ){
+                      sizesHeatmap = c(1200, 800), varrot, intvar, adj.var = NULL, mycol, ... ){
 
       if(!inherits(obj,"roastgsa")) stop("not a roastgsa object")
       if(ploteffsize) if(missing(varrot)) stop("varrot is missing")
@@ -34,7 +34,7 @@ htmlagsea <- function(obj, htmlpath = "", htmlname = "file.html", plotpath ="",
                 if(indheatmap){
                     png(paste0(htmlpath,plotpath, gsub("[[:punct:]]"," ",k),"_heatmap.png"),
                         width = sizesHeatmap[2], height = sizesHeatmap[1])
-                    heatmapMean(obj, y, whplot = k, ...)
+                    heatmapMean(obj, y, whplot = k, mycol =mycol, intvar, adj.var, ...)
                     dev.off()
                 }
                 if(ploteffsize){
@@ -76,5 +76,7 @@ htmlagsea <- function(obj, htmlpath = "", htmlname = "file.html", plotpath ="",
         }
 
         write.html.mod(x, file=paste0(htmlpath, htmlname), links=links, tiny.pic=plots,  title=tit)
+
+
 }
 
