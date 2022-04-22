@@ -1,4 +1,4 @@
-# roastgsa code
+# roastgsa R package
 
-# roastgsa geneset enrichment analysis methods and outputs.
+roastgsa geneset enrichment analysis methods and outputs.
 
