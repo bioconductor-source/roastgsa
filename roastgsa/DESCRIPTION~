@@ -1,0 +1,19 @@
+Package: roastgsa
+Type: Package
+Version: 0.99.2
+Date: 2022-12-16
+Title: Rotation based gene set analysis
+Authors@R: person("Adria", "Caballe", email = "adria.caballe@irbbarcelona.org",role = c("aut", "cre"))
+Description: This package implements several functions useful for
+             gene set analysis using rotations to approximate the
+	     null distribution. Several functions are available to reach a complete graphical
+	     representation of the results. Among them, a p-value curve used to approximate
+	     the effective signature size of the tested set and that can be linked to the power of the test.
+LazyLoad: no
+LazyData: false
+VignetteBuilder: knitr
+biocViews: Microarray, Preprocessing, Normalization, GeneExpression, Survival, Transcription, Sequencing, Transcriptomics, Bayesian, Clustering, Regression, RNASeq,  MicroRNAArray, mRNAMicroarray, FunctionalGenomics, SystemsBiology, ImmunoOncology,  DifferentialExpression, GeneSetEnrichment, BatchEffect, MultipleComparison, QualityControl, TimeCourse, Metabolomics, Proteomics, Epigenetics, Cheminformatics, ExonArray, OneChannel, TwoChannel, ProprietaryPlatforms, CellBiology, BiomedicalInformatics, AlternativeSplicing, DifferentialSplicing, DataImport
+Depends: R (>= 3.5), gplots, ggplot2, limma, RColorBrewer, Biobase, DESeq2
+Imports: parallel, grDevices, graphics, utils, stats,  methods, grid
+Suggests: BiocStyle, knitr, rmarkdown, GSEABenchmarkeR, EnrichmentBrowser, preprocessCore
+License: GPL-3
