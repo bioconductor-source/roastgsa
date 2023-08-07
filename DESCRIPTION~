@@ -1,6 +1,6 @@
 Package: roastgsa
 Type: Package
-Version: 0.99.3
+Version: 0.99.2
 Date: 2023-06-13
 Title: Rotation based gene set analysis
 Authors@R: person("Adria", "Caballe", email = "adria.caballe@irbbarcelona.org",role = c("aut", "cre"))
