@@ -6,9 +6,9 @@
 varrotrand <- function(obj, y, testedsizes = c(3:30,seq(32,50, by=2),
     seq(55,200,by=5)), nrep = 200, nrot = NULL, mccores = NULL, psel = NULL){
 
-    if(is.null(nrot)) nrot = attr(obj,"nrot")
+    if(is.null(nrot)) nrot <- attr(obj,"nrot")
 
-    if(is.null(mccores)) mccores = attr(obj,"mccores")
+    if(is.null(mccores)) mccores <- attr(obj,"mccores")
 
     psel2  <- psel
     weigths <- NULL

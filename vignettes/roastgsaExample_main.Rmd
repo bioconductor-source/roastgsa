@@ -1,28 +1,33 @@
 ---
 title: "roastgsa vignette (main)"
-output: rmarkdown::html_vignette
+author: "Adria Caballe-Mestres <adria.caballe@irbbarcelona.org>"
+output: BiocStyle::html_document
 vignette: >
     %\VignetteIndexEntry{roastgsa vignette (main)}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 ---
+
 `r library("knitr")`
-`r opts_chunk$set(cache=FALSE, fig.height=10,fig.width=8, message=FALSE,
+`r opts_chunk$set(cache=FALSE, fig.width=9, message=FALSE,
 warning=FALSE, fig.align = "left")`
 
-Adria Caballe Mestres
-<adria.caballe@irbbarcelona.org>
 
-<br>
-<br>
+# Installation
 
+```{r, message = FALSE, eval=FALSE}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("roastgsa")
+
+```
 # Paper associated to R package
 ```{r load-packages, message=FALSE, warning=FALSE}
 library( roastgsa )
 ```
 
 The R package `roastgsa` contains several functions to perform
-gene set analysis, for both competitive and self-contained hypothesis 
+gene set analysis, for both competitive and self-contained hypothesis
 testing.
 
 It follows the work by Gordon Smyth's group on rotation based methods
@@ -51,11 +56,9 @@ associated paper.
 
 In this R package, we have also provided several tools to summarize
 and visualize the roastgsa results. This vignette will show a work-flow
-for gene set analysis with `roastgsa` using micro-array data (available in
+for gene set analysis with `roastgsa` using microarray data (available in
 the `GSEABenchmarkeR` R package [6]).
 
-<br>
-<br>
 
 # Data: array experiment from GSEABenchmarkeR
 We consider the fourth dataset available in the `GSEABenchmarkeR` R
@@ -82,22 +85,20 @@ data(kegg.hs)
 kegg.gs <- kegg.hs[which(sapply(kegg.hs,length)>10&sapply(kegg.hs,length)<500)]
 ```
 
-<br>
-<br>
 
 # Gene set enrichment analysis using roastgsa
 
 ## Data treatment
 There are some important elements that should be taken into
 consideration before undertaking the `roastgsa`. First, the expression
-data should be approximately  normally distributed, at least in their 
+data should be approximately  normally distributed, at least in their
 univariate form. For RNA-seq data or any other form of counts data, prior
 normalization, e.g., `rlog` or `vst` (`DESeq2`), `zscoreDGE` (`edgeR`) or `voom`
 (`limma`), should be used. Besides, filtering for expression intensity
 and variability could be considered, especially when the gene
 variation across individuals is limited by the experimental coverage.
 
-For micro-array intensities, as it happens in the example of this
+For microarray intensities, as it happens in the example of this
 vignette, we can perform
 a quantile normalization to balance out the libraries.
 
@@ -133,7 +134,7 @@ contrast = "GROUP1"
 Three parameters that define the roast hypothesis testing have to be
 properly specified: -a- the number of rotations to draw the null
 hypothesis (`nrot`); -b- the statistic to be used (`set.statistic`);
--c- the type of hypothesis (`self.contained` argument), competitive 
+-c- the type of hypothesis (`self.contained` argument), competitive
 (set to FALSE) or self-contained (set to TRUE).
 
 Regarding the test statistics, the `maxmean` (directional) and the
@@ -232,29 +233,29 @@ hm2 <- heatmaprgsa_hm(fit.maxmean.comp, y, intvar = "GROUP", whplot = 1:50,
 ```
 
 ## Effective signature size
-Gene sets in standard databases might contain from moderately to highly 
-correlated genes, even when the effect of the known covariates is adjusted 
-a priori. The variance of summary statistics such as mean or maxmean 
-increases with the intra-gene set correlation, meaning that the power for 
-detecting gene set changes between experimental conditions depends on a 
-combination of genewise effect sizes, signature size and intra-gene set 
-correlation. 
+Gene sets in standard databases might contain from moderately to highly
+correlated genes, even when the effect of the known covariates is adjusted
+a priori. The variance of summary statistics such as mean or maxmean
+increases with the intra-gene set correlation, meaning that the power for
+detecting gene set changes between experimental conditions depends on a
+combination of genewise effect sizes, signature size and intra-gene set
+correlation.
 
 We define the effective signature size of a tested gene set by the total number
-of genes that are needed, if these were selected at random, to achieve the same 
-summary statistic variance as that for the testing set. This can be viewed as a 
-realistic measure of the total number of independent variables that contribute 
-to the power of the test. To get an estimate of the effective signature size, 
+of genes that are needed, if these were selected at random, to achieve the same
+summary statistic variance as that for the testing set. This can be viewed as a
+realistic measure of the total number of independent variables that contribute
+to the power of the test. To get an estimate of the effective signature size,
 sample variances of rotation scores for randomly generated sets of several sizes
 are compared to the observed rotation scores variance for the tested gene set:
 
 ```{r, message = FALSE}
 ## Computationally intensive
-# varrot <- varrotrand(fit.maxmean.comp, y, 
+# varrot <- varrotrand(fit.maxmean.comp, y,
 #   testedsizes = c(3:30, seq(32,50, by=2), seq(55,200,by=5)), nrep = 200)
 ```
 A p-value that approximates the probability of obtaining a variance as extreme
-as the observed test variance in randomly selected sets of several sizes is 
+as the observed test variance in randomly selected sets of several sizes is
 computed:
 ```{r, message = FALSE}
 # ploteffsignaturesize(fit.maxmean.comp, varrot,  whplot = 1)
@@ -262,40 +263,38 @@ computed:
 
 ## Functions to present the results
 The outcome obtained in `roastgsa` can be organized in a html table using
-the `htmlrgsa` function.  The reported file shows all numerical results that 
-can be found in printing an object of class `roastgsa` as well as the plots 
-obtained by `plotStats`, `plotGSEA`, `heatmaprgsa_hm` or 
-`varrotrand` + `ploteffsignaturesize`. A column with html-links for the 
-differential expression results at gene level can also be provided through the 
-argument `geneDEhtmlfiles`, which we find extremely useful for researchers to 
-understand which are the genes that drive the pathway activity. 
+the `htmlrgsa` function.  The reported file shows all numerical results that
+can be found in printing an object of class `roastgsa` as well as the plots
+obtained by `plotStats`, `plotGSEA`, `heatmaprgsa_hm` or
+`varrotrand` + `ploteffsignaturesize`. A column with html-links for the
+differential expression results at gene level can also be provided through the
+argument `geneDEhtmlfiles`, which we find extremely useful for researchers to
+understand which are the genes that drive the pathway activity.
 
 ```{r, message = FALSE}
-#htmlrgsa(fit.maxmean.comp, htmlpath = getwd(), htmlname = "file.html", 
+#htmlrgsa(fit.maxmean.comp, htmlpath = getwd(), htmlname = "file.html",
 #  plotpath = paste0(getwd(),"/plotsroast/"), geneDEhtmlfiles = NULL,
 #  plotstats = TRUE, plotgsea = TRUE, indheatmap = TRUE,
-#  ploteffsize = TRUE, y = y, intvar = "GROUP", whplot = 1:50, 
-#  mycol = c("orange","green","white"), varrot=varrot, 
+#  ploteffsize = TRUE, y = y, intvar = "GROUP", whplot = 1:50,
+#  mycol = c("orange","green","white"), varrot=varrot,
 #  sorttable = sorttable,dragtable = dragtable)
 ```
 Complete information on the usage of this function can be found in the manual.
 
-<br>
-
 
 ## Single sample GSA
 To complement the outcome of the `roastgsa`, we encourage the usage of
-single sample GSA visualization methods. These approaches are interesting for 
-assessing the variability of gene set effects at sample level (averaging out 
-gene wise coefficients) instead of at gene level. 
+single sample GSA visualization methods. These approaches are interesting for
+assessing the variability of gene set effects at sample level (averaging out
+gene wise coefficients) instead of at gene level.
 
-The `heatmaprgsa_hm` instruction used above already provides some insight 
-of sample variation. Besides, in the `roastgsa` package we have implemented a 
-function for single sample gene set analysis based on z-scores [7]. 
-We present two methods that correct for the overall structure in 
-the genome (`method = "GScor"` and `method = "GSadj"`), leading to competitive 
-testing, and one method that ignores the rest of the genes in the data 
-(`method = "zscore"`), self-contained testing. For small 
+The `heatmaprgsa_hm` instruction used above already provides some insight
+of sample variation. Besides, in the `roastgsa` package we have implemented a
+function for single sample gene set analysis based on z-scores [7].
+We present two methods that correct for the overall structure in
+the genome (`method = "GScor"` and `method = "GSadj"`), leading to competitive
+testing, and one method that ignores the rest of the genes in the data
+(`method = "zscore"`), self-contained testing. For small
 sample sizes, we recommend using "GScor" whereas for sufficiently large
 sample size (>50) "GSadj" is our preferred option.
 
@@ -311,8 +310,6 @@ plot(ss1, orderby = covar$GROUP, whplot = 1, col = as.numeric(covar$GROUP),
 samplename = FALSE, pch =16, maintitle = "", ssgsaInfo = TRUE,
 cex.sub = 0.8, xlab = "Group", ylab = "zscore - GS")
 ```
-
-<br>
 
 # sessionInfo
 ```{r, message = FALSE}

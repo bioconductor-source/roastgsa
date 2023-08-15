@@ -16,7 +16,7 @@ avgcorfun <- function(x){
 
 
 formatApval <- function(x, ns = "", nc = ""){
-    st = rep(ns,length(x))
+    st <- rep(ns,length(x))
     st <- ifelse(x < 0.25, "+", st)
     st <- ifelse(x < 0.10, "*", st)
     st <- ifelse(x < 0.05, "**", st)
@@ -38,7 +38,7 @@ contMatFunction <- function(pd, form = NULL, lgroups = NULL){
     lsigns <- c(lapply(seq_len(length(lgroups)), function(j) c(1, -1)))
 
     conts <- lapply(seq_len(length(lsigns)), function(j)
-        make.contrasts(d=pd, form=as.formula(form),
+        makeContrasts(d=pd, form=as.formula(form),
             lsel=lgroups[[j]],
             signs=lsigns[[j]]))
     cont.mat <- vapply(conts, function(o)
@@ -61,7 +61,7 @@ dsfunction <- function(nd, form = NULL, lgroups = NULL){
     return(ds)
 }
 
-make.contrasts <- function(d, form, lsel, signs, type='balanced', ngroups=NULL)
+makeContrasts <- function(d, form, lsel, signs, type='balanced', ngroups=NULL)
 {
 
     nv <- strsplit(paste(form)[2], split=' \\+ ')[[1]];

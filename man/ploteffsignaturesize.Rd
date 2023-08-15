@@ -50,14 +50,14 @@ names(index) <- paste0("gset",1:10)
 
 
 roastgsa1 <- roastgsa(y, covar, form = form, self.contained = TRUE,
-    set.statistic = "maxmean", index = index, nrot = 200,
+    set.statistic = "maxmean", index = index, nrot = 100,
     mccores = 1, executation.info = FALSE)
 
-#varrot <- varrotrand(roastgsa1, y,
-#    testedsizes = c(3:30, seq(32,50, by=2), seq(55,200,by=5)),
-#    nrep = 200)
+varrot <- varrotrand(roastgsa1, y,
+    testedsizes = c(seq(5,50, by=5), seq(55,200,by=10)), 
+	nrep = 50)
 
-# ploteffsignaturesize(roastgsa1, varrot,  whplot = 2)
+ploteffsignaturesize(roastgsa1, varrot,  whplot = 2)
 }
 
 

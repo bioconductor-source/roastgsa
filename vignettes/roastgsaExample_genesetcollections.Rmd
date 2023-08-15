@@ -1,20 +1,26 @@
 ---
 title: "roastgsa vignette (gene set collections)"
-output: rmarkdown::html_vignette
+author: "Adria Caballe-Mestres <adria.caballe@irbbarcelona.org>"
+output: BiocStyle::html_document
 vignette: >
     %\VignetteIndexEntry{roastgsa vignette (gene set collections)}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 ---
+
 `r library("knitr")`
-`r opts_chunk$set(cache=FALSE, fig.height=10,fig.width=8, message=FALSE,
+`r opts_chunk$set(cache=FALSE, fig.width=9, message=FALSE,
 warning=FALSE, fig.align = "left")`
 
-Adria Caballe Mestres
-<adria.caballe@irbbarcelona.org>
 
-<br>
-<br>
+# Installation
+
+```{r, message = FALSE, eval=FALSE}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("roastgsa")
+
+```
 
 # Using gene set collections for battery testing
 
@@ -81,7 +87,7 @@ obtained as follows
 # rownames(cont.mat) <- colnames(design)
 ```
 
-In micro-arrays, the expression values for each gene can be measured
+In microarrays, the expression values for each gene can be measured
 in several probesets. To perform gene set analysis, we select the probeset
 with maximum variability for every gene:
 
@@ -114,13 +120,11 @@ Summary tables can be presented following the `roastgsa::htmlrgsa`
 documentation.
 
 
-<br>
-
 # sessionInfo
 ```{r, message = FALSE}
 sessionInfo()
 ```
-<br>
+
 
 # References
 

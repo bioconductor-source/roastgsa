@@ -1,4 +1,4 @@
-write.html.mod <- function (x, links, tiny.pic, tiny.pic.size = 100, title = "",
+writehtmlmod <- function (x, links, tiny.pic, tiny.pic.size = 100, title = "",
     file, digits = 3, col.align='center', cellpadding=10, sorttable, dragtable)
 {
     stopifnot(is(x, 'data.frame'))
@@ -66,10 +66,10 @@ write.html.mod <- function (x, links, tiny.pic, tiny.pic.size = 100, title = "",
     cat("</TABLE>\n", file = file, append = TRUE)
     cat("</body>\n", file = file, append = TRUE)
     cat("</html>\n", file = file, append = TRUE)
-    sortDragHtmlTable.int(filename = file, sorttable, dragtable)
+    sortDragHtmlTableint(filename = file, sorttable, dragtable)
 }
 
-sortDragHtmlTable.int <- function (filename, sorttable, dragtable)
+sortDragHtmlTableint <- function (filename, sorttable, dragtable)
 {
     lastSlashPos <-
         gregexpr(.Platform$file.sep, filename)[[1]][length(gregexpr(

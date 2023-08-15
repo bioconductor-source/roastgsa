@@ -62,11 +62,11 @@ htmlrgsa(obj, htmlpath = "", htmlname = "file.html", plotpath ="",
 
     \item{typeheatmap}{either ggplot2 type or heatmap.2 type}
 
-    \item{intvar}{for \code{\link{heatmaprgsa}}. Name of variable of
+    \item{intvar}{for \code{\link{heatmaprgsa_hm}}. Name of variable of
     interest in \code{obj$formula}. If
     missing, last term of \code{obj$formula} is used}
 
-    \item{adj.var}{for \code{\link{heatmaprgsa}}. Name of covariates in
+    \item{adj.var}{for \code{\link{heatmaprgsa_hm}}. Name of covariates in
     \code{obj$design} to   adjust using  a linear model in the heatmap
     representation. If \code{NULL} no prior adjustment applies}
 
@@ -136,12 +136,11 @@ roastgsa1 <- roastgsa(y, covar, form = form, self.contained = TRUE,
     set.statistic = "maxmean", index = index, nrot = 200,
     mccores = 1, executation.info = FALSE)
 
-
-#htmlrgsa(roastgsa1, htmlpath = "", htmlname = "file.html", plotpath ="",
-#          plotstats = FALSE, plotgsea = FALSE, indheatmap = FALSE,
-#          ploteffsize = FALSE, links_plots = list(stats= NULL, gsea = NULL,
-#          heatmap = NULL, effsize = NULL), y = y, sorttable = sorttable,
-#          dragtable = dragtable)
+htmlrgsa(roastgsa1, htmlpath = "", htmlname = "test.html", plotpath ="plots/",
+          plotstats = FALSE, plotgsea = FALSE, indheatmap = FALSE,
+          ploteffsize = FALSE, links_plots = list(stats= NULL, gsea = NULL,
+          heatmap = NULL, effsize = NULL), y = y, sorttable = sorttable,
+          dragtable = dragtable)
 
 }
 

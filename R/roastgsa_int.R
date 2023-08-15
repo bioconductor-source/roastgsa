@@ -195,7 +195,7 @@ froastgsa <- function(y, index, design = NULL, contrast = ncol(design),
                 estneg0 <- (estneg0 - nuaneg0)/sdaneg0
             }
             est0 <- pmax(estpos0, estneg0)
-            est0[estneg0 > estpos0] = -1 * est0[estneg0 > estpos0]
+            est0[estneg0 > estpos0] <- -1 * est0[estneg0 > estpos0]
                                         # p.value <- est0 <= est
             est0
         }, mc.cores = mccores))
@@ -397,7 +397,7 @@ froastgsa <- function(y, index, design = NULL, contrast = ncol(design),
 
         ord <- order(-modt)
         modt2 <- modt[ord]
-        rankmod = rank(-modt, ties.method = "first")
+        rankmod <- rank(-modt, ties.method = "first")
         index2 <- lapply(index, function(o) rankmod[o])
 
         es <- vapply(index2, function(o, modt2)
@@ -429,7 +429,7 @@ froastgsa <- function(y, index, design = NULL, contrast = ncol(design),
             }
             ordr <- order(-modtr)
             modtr2 <- modtr[ordr]
-            rankmod = rank(-modtr, ties.method = "first")
+            rankmod <- rank(-modtr, ties.method = "first")
             index2 <- lapply(index, function(o) rankmod[o])
             es0 <- vapply(index2, function(o, modtr2)
                 enrichmentScore(modtr2, o),numeric(length(modtr2)),modtr2)
@@ -476,7 +476,7 @@ froastgsa <- function(y, index, design = NULL, contrast = ncol(design),
                 modtr <- limma::zscoreT(modtr, df =  d0 + d, approx = FALSE)
             ordr <- order(-modtr)
             modtr2 <- modtr[ordr]
-            rankmod = rank(-modtr, ties.method = "first")
+            rankmod <- rank(-modtr, ties.method = "first")
             index2 <- lapply(index, function(o) rankmod[o])
             es0 <- vapply(index2, function(o, modtr2)
                 enrichmentScore(seq_len(length(modtr2)) - length(modtr2)/2, o),

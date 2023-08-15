@@ -108,7 +108,7 @@ htmlrgsa <- function(obj, htmlpath = "", htmlname = "file.html", plotpath ="",
         links$geneDEinfo[seq_len(length(geneDEhtmlfiles))] <- geneDEhtmlfiles
     }
 
-    write.html.mod(x, file=paste0(htmlpath, htmlname), links=links,
+    writehtmlmod(x, file=paste0(htmlpath, htmlname), links=links,
         tiny.pic=plots, title=tit, sorttable = sorttable, dragtable = dragtable)
 }
 

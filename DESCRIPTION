@@ -3,7 +3,8 @@ Type: Package
 Version: 0.99.3
 Date: 2023-06-13
 Title: Rotation based gene set analysis
-Authors@R: person("Adria", "Caballe", email = "adria.caballe@irbbarcelona.org",role = c("aut", "cre"))
+Authors@R: person("Adria", "Caballe", email = "adria.caballe@irbbarcelona.org",role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2388-4713"))
+BugReports: https://github.com/adricaba/roastgsa/issues
 Description: This package implements a variety of functions useful for
              gene set analysis using rotations to approximate the
 	     null distribution. It contributes with the implementation of
@@ -13,7 +14,7 @@ Description: This package implements a variety of functions useful for
 Encoding: UTF-8
 VignetteBuilder: knitr
 biocViews: Microarray, Preprocessing, Normalization, GeneExpression, Survival, Transcription, Sequencing, Transcriptomics, Bayesian, Clustering, Regression, RNASeq,  MicroRNAArray, mRNAMicroarray, FunctionalGenomics, SystemsBiology, ImmunoOncology,  DifferentialExpression, GeneSetEnrichment, BatchEffect, MultipleComparison, QualityControl, TimeCourse, Metabolomics, Proteomics, Epigenetics, Cheminformatics, ExonArray, OneChannel, TwoChannel, ProprietaryPlatforms, CellBiology, BiomedicalInformatics, AlternativeSplicing, DifferentialSplicing, DataImport, Pathways
-Depends: R (>= 4.1), gplots, ggplot2, limma, RColorBrewer, Biobase
-Imports: parallel, grDevices, graphics, utils, stats,  methods, grid
+Depends: R (>= 4.3.0)
+Imports: parallel, grDevices, graphics, utils, stats,  methods, grid, RColorBrewer, gplots, ggplot2, limma, Biobase
 Suggests: BiocStyle, knitr, rmarkdown, GSEABenchmarkeR, EnrichmentBrowser, preprocessCore, DESeq2
 License: GPL-3

@@ -2,30 +2,17 @@ export(plotGSEA)
 export(plotStats)
 export(varrotrand)
 export(ploteffsignaturesize)
-export(heatmaprgsa)
 export(heatmaprgsa_hm)
 export(roastgsa)
 export(htmlrgsa)
-export(enrichmentScore)
-export(froastgsa)
-export(write.html.mod)
-export(sortDragHtmlTable.int)
-export(indexFunction)
-export(avgcorfun)
-export(formatApval)
-export(designFunction)
-export(contMatFunction)
-export(dsfunction)
-export(make.contrasts)
 export(ssGSA)
 
 S3method(print, roastgsa)
 S3method(plot, ssGSA)
 S3method(plot, roastgsa)
 
-import(RColorBrewer)
+
 import(Biobase)
-import(gplots)
 import(ggplot2)
 import(limma)
 
@@ -44,6 +31,5 @@ importFrom("stats", "as.dist", "cor", "cov", "cov2cor", "dbinom",
     "as.formula","pt","p.adjust", "terms")
 importFrom("methods", "is")
 importFrom("grid", "grid.draw")
-
-
-
+importFrom("RColorBrewer","brewer.pal")
+importFrom("gplots","bluered","heatmap.2")
