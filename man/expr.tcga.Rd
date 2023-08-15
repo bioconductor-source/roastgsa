@@ -5,6 +5,9 @@
 \description{Counts matrix of RNA-seq study with 19 tumor Bladder
 Urothelial Carcinoma samples and 19 adjacent healthy tissues}
 \usage{expr.tcga}
+\value{
+ Matrix with expression matrix
+}
 \format{matrix}
 \source{https://bioconductor.org/packages/release/bioc/html/GSEABenchmarkeR.html}
 \references{Geistlinger L, Csaba G, Santarelli M, Ramos M, Schiffer L,

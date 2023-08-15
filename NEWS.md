@@ -1,5 +1,4 @@
 # roastgsa (development version)
-
 * R package for gene set analysis.
 * Competitive and self-contained testing using rotations
         to represent the null distribution.

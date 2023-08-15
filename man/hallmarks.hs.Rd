@@ -4,6 +4,9 @@
 \title{Hallmarks homo sapiens gene symbol}
 \description{ Hallmark geneset collection from msigdb}
 \usage{hallmarks.hs}
+\value{
+List with hallmark genes
+}
 \format{character list}
 \source{https://www.gsea-msigdb.org/gsea/downloads.jsp}
 \references{Liberzon, A. et al.: The Molecular Signatures

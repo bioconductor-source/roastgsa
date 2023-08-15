@@ -3,9 +3,12 @@
 \alias{dragtable}
 \title{dragtable for html writings }
 \description{
-from dragtable v1.0 of Dan Vanderkam. 
+from dragtable v1.0 of Dan Vanderkam.
 }
 \usage{dragtable}
+\value{
+Character vector with dragtable
+}
 \format{character vector}
 \source{http://danvk.org/dragtable/}
 \references{kryogenix.org/code/browser/sorttable}

@@ -5,6 +5,9 @@
 \description{Sample information of RNA-seq study with 19 tumor Bladder
 Urothelial Carcinoma samples and 19 adjacent healthy tissues}
 \usage{pd.tcga}
+\value{
+    Data frame with sample info
+}
 \format{DFrame}
 \source{https://bioconductor.org/packages/release/bioc/html/GSEABenchmarkeR.html}
 \references{Geistlinger L, Csaba G, Santarelli M, Ramos M, Schiffer L,
