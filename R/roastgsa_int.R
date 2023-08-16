@@ -152,7 +152,7 @@ froastgsa <- function(y, index, design = NULL, contrast = ncol(design),
             estneg <- (estneg - nuaneg)/sdaneg
         }
         est <- pmax(estpos, estneg)
-        est[estneg > estpos] = -1 * est[estneg > estpos]
+        est[estneg > estpos] <- -1 * est[estneg > estpos]
         p.value <- matrix(0, nrow = nsets, ncol = 2)
         est0.all <- do.call(cbind,mclapply(seq_len(nrot),function(i){
             if(executation.info ) setTxtProgressBar(pb, i)
@@ -450,7 +450,7 @@ froastgsa <- function(y, index, design = NULL, contrast = ncol(design),
     if (set.statistic == "ksmean"){
         ord <- order(-modt)
         modt2 <- modt[ord]
-        rankmod = rank(-modt, ties.method = "first")
+        rankmod <- rank(-modt, ties.method = "first")
         index2 <- lapply(index, function(o) rankmod[o])
         es <- vapply(index2, function(o, modt2)
             enrichmentScore(seq_len(length(modt2)) - length(modt2)/2, o),

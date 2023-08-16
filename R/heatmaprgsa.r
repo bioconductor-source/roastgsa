@@ -183,7 +183,7 @@ heatmaprgsa <- function(obj, y, intvar, adj.var = NULL, whplot = 1,
         else or <- order2
         if(is.null(order1)) or2  <- order(DAT4HM[,1], decreasing=TRUE)
         else or2  <- order1
-        aux = heatmap.2(DAT4HM[or2,
+        aux <- heatmap.2(DAT4HM[or2,
             c(seq_len(2), match(rownames(obj$covar),
             colnames(DAT4HM)))][,c(1,2, or+2)], dendrogram=dendrogram,col=col,
             trace=trace, margins = margins,  notecol = notecol,
